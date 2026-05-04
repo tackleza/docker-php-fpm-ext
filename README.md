@@ -1,7 +1,9 @@
 # php-fpm-ext
 
-**GitHub:** https://github.com/tackleza/docker-php-fpm-ext
-**Docker Hub:** https://hub.docker.com/r/tackleza/php-fpm-ext
+| Repository | Link |
+|-------------|------|
+| GitHub | https://github.com/tackleza/docker-php-fpm-ext |
+| Docker Hub | https://hub.docker.com/r/tackleza/php-fpm-ext |
 
 A PHP-FPM image with a curated set of common extensions pre-installed.
 

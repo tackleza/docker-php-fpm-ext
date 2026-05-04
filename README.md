@@ -1,8 +1,9 @@
 # php-fpm-ext
 
-Docker Hub: https://hub.docker.com/r/tackleza/php-fpm-ext
+**GitHub:** https://github.com/tackleza/docker-php-fpm-ext
+**Docker Hub:** https://hub.docker.com/r/tackleza/php-fpm-ext
 
-A PHP-FPM image with a curated set of common extensions pre-installed. Designed to run behind a web server reverse-proxy (e.g., Nginx, Caddy).
+A PHP-FPM image with a curated set of common extensions pre-installed.
 
 ## ⚠️ This is NOT a standalone web server
 

@@ -60,8 +60,10 @@ RUN apk update && apk add --no-cache \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# chmod www to www-data
-RUN chown -R www-data:www-data /var/www
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Clean up
 RUN rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

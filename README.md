@@ -129,12 +129,23 @@ upload_max_filesize = 512M
 post_max_size = 512M
 ```
 
-## Non-Root Operation
+## File Permissions
 
-- PHP-FPM runs as the `www-data` user.
-- Document root `/var/www` is owned by `www-data:www-data`.
-- Ensure your mounted volume/directory is writable by uid 33 (`www-data`).
-- The container itself runs as a non-privileged user (www-data).
+The container automatically remaps `www-data` to match the UID/GID of whoever owns the mounted `/var/www` directory. No manual `chown` needed — PHP-FPM can write files and the host user retains full access for `git pull`, deploy scripts, and live code editing.
+
+| Scenario | Behavior |
+|----------|----------|
+| Mount from `/home/user_a` (uid=1000) | `www-data` remapped to uid=1000 |
+| Mount from `/home/user_b` (uid=1001) | `www-data` remapped to uid=1001 |
+| Mount from `/root` (uid=0) | No remapping (root owns everything) |
+
+To override the detected UID/GID explicitly:
+
+```bash
+docker run -e FPM_UID=$(id -u) -e FPM_GID=$(id -g) \
+  -v $(pwd)/data:/var/www/html \
+  tackleza/php-fpm-ext:8.3-alpine
+```
 
 ## PHP Version Lifecycle
 

@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine3.20
+FROM php:8.5-fpm-alpine
 
 RUN apk update && apk add --no-cache \
     autoconf \
@@ -28,31 +28,30 @@ RUN apk update && apk add --no-cache \
     zlib-dev \
     libxslt-dev \
     gmp-dev \
-    php83-bcmath \
-    php83-bz2 \
-    php83-calendar \
-    php83-exif \
-    php83-gd \
-    php83-gettext \
-    php83-imap \
-    php83-intl \
-    php83-mysqli \
-    php83-opcache \
-    php83-pcntl \
-    php83-pdo \
-    php83-pdo_mysql \
-    php83-shmop \
-    php83-soap \
-    php83-sockets \
-    php83-sysvmsg \
-    php83-sysvsem \
-    php83-sysvshm \
-    php83-tidy \
-    php83-xsl \
-    php83-zip \
-    php83-pecl-mongodb \
-    php83-pecl-imagick \
-    php83-gmp \
+    php85-bcmath \
+    php85-bz2 \
+    php85-calendar \
+    php85-exif \
+    php85-gd \
+    php85-gettext \
+    php85-imap \
+    php85-intl \
+    php85-mysqli \
+    php85-pcntl \
+    php85-pdo \
+    php85-pdo_mysql \
+    php85-shmop \
+    php85-soap \
+    php85-sockets \
+    php85-sysvmsg \
+    php85-sysvsem \
+    php85-sysvshm \
+    php85-tidy \
+    php85-xsl \
+    php85-zip \
+    php85-pecl-mongodb \
+    php85-pecl-imagick \
+    php85-gmp \
     nano \
     iputils \
     git
@@ -60,8 +59,10 @@ RUN apk update && apk add --no-cache \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# chmod www to www-data
-RUN chown -R www-data:www-data /var/www
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Clean up
 RUN rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

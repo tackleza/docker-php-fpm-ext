@@ -1,3 +1,3 @@
 #!/bin/bash
-docker pull php:8.1-fpm-alpine3.21
-docker build -t tackleza/php-fpm-ext:8.2-alpine .
+docker pull php:8.2-fpm-alpine
+docker build -t tackleza/php-fpm-ext:8.2-alpine -f Dockerfile ../

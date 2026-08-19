@@ -1,68 +1,50 @@
 FROM php:8.5-fpm-alpine3.23
 
-RUN apk update && apk add --no-cache \
-    autoconf \
-    bzip2-dev \
-    curl-dev \
-    freetype-dev \
-    g++ \
-    gettext-dev \
-    icu-dev \
-    imagemagick-dev \
-    imap-dev \
-    krb5-dev \
-    libc-dev \
-    libedit-dev \
-    libjpeg-turbo-dev \
-    libpng-dev \
-    libwebp-dev \
-    libxpm-dev \
-    libzip-dev \
-    linux-headers \
-    make \
-    oniguruma-dev \
-    openldap-dev \
-    openssl \
-    pcre-dev \
-    tidyhtml-dev \
-    zlib-dev \
-    libxslt-dev \
-    gmp-dev \
-    php85-bcmath \
-    php85-bz2 \
-    php85-calendar \
-    php85-exif \
-    php85-gd \
-    php85-gettext \
-    php85-imap \
-    php85-intl \
-    php85-mysqli \
-    php85-pcntl \
-    php85-pdo \
-    php85-pdo_mysql \
-    php85-shmop \
-    php85-soap \
-    php85-sockets \
-    php85-sysvmsg \
-    php85-sysvsem \
-    php85-sysvshm \
-    php85-tidy \
-    php85-xsl \
-    php85-zip \
-    php85-pecl-mongodb \
-    php85-pecl-imagick \
-    php85-gmp \
-    nano \
-    iputils \
-    git
+# 1. Install Extension Installer Script
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Install Composer
+# 2. Install System Utilities (Linux Tools)
+RUN apk update && apk add --no-cache \
+    curl \
+    git \
+    iputils \
+    nano \
+    unzip \
+    zip
+
+# 3. Install ALL PHP Extensions
+RUN install-php-extensions \
+    bcmath \
+    bz2 \
+    calendar \
+    exif \
+    gd \
+    gettext \
+    gmp \
+    imagick \
+    imap \
+    intl \
+    mongodb \
+    mysqli \
+    opcache \
+    pcntl \
+    pdo_mysql \
+    redis \
+    shmop \
+    soap \
+    sockets \
+    sysvmsg \
+    sysvsem \
+    sysvshm \
+    tidy \
+    xsl \
+    zip
+
+# 4. Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# 5. Entrypoint — auto-remaps www-data UID to match mounted volume owner
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Clean up
-RUN rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

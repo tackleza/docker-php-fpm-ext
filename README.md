@@ -44,6 +44,7 @@ For a standalone PHP + Apache server, use **[tackleza/php-apache-ext](https://hu
 | `opcache` | PHP bytecode cache |
 | `pcntl` | Process control |
 | `pdo_mysql` | PDO MySQL driver |
+| `redis` | Redis in-memory data store client |
 | `shmop` | Shared memory operations |
 | `soap` | SOAP protocol support |
 | `sockets` | Low-level socket interface |
